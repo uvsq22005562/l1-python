@@ -1,0 +1,30 @@
+======================= Présentation : =======================
+
+    Un programme permettant de réviser toute sorte de cours, a la façon d'un logiciel comme "quizzlet".
+
+    L'idée est d'avoir possibilité de modifier de nombreuses options, de façon plutôt simplifié, pour que 
+    le programme soit adaptable a un maximu de matières ou de type de révisions (images, définitions, schémas).
+
+    Le programme doit pouvoir se souvenir des bonnes / mauvaises réponses de l'utilisateur, de façon a pouvoir
+    lui présenter des statistiques sur son apprentissage.
+
+    Ces statistiques peuvent permettrent ensuite de créer un algorythme simple créant des "programmes de révisions"
+    en fonction des mauvaises réponses les plus récurantes.
+
+======================= Requiert : =======================
+
+    1.  Une interface graphique -> Tkinter ?
+
+        -   doit pouvoir afficher des images.
+        -   doit disposer de boutons cliquables
+        -   doit disposer de cases a remplir avec du texte
+
+    2.  De savoir développer une application sous python
+
+        -   bon bah commence par là et renseigne toi.
+
+    3.  De pouvoir intéragir avec des dossiers / fichiers pour stocker des données.
+
+        -   doit pouvoir ranger les images importés dans des dossiers pour les sauvegarder.
+        -   doit pouvoir écrire dans des dossiers textes (ou autres), puis retourner chercher les informations
+
