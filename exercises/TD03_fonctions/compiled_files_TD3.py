@@ -1,12 +1,29 @@
+import time
+
+
 def tempsEnSeconde(temps):
     """ Accepte tuple (jour, heures, minutes, secondes) -->
         renvois un tuple de type (secondes). """
+    if len(temps) == 9:
+        annee_bisextiles = bisextile(temps)
+        jours_par_mois = [31, 28, 31, 30, 31, 30, 31, 31, 30, 31, 30, 31]
+        # annee = (temps[0] - 1970) * 31536000
+        mois = 0
+        nbr_mois = (temps[1] + (temps[0] - 1970) * 12)
+        for i in range(1, nbr_mois+1):
+            mois += (jours_par_mois[i % 12] * 86400)
+        jours = (temps[2] + annee_bisextiles) * 86400
+        heures = temps[3] * 3600
+        minutes = temps[4] * 60
+        secondes = temps[5]
+        return (mois + jours + heures + minutes + secondes)
 
-    jours = temps[0] * 86400
-    heures = temps[1] * 3600
-    minutes = temps[2] * 60
-    secondes = temps[3]
-    return jours + heures + minutes + secondes
+    else:
+        jours = temps[0] * 86400
+        heures = temps[1] * 3600
+        minutes = temps[2] * 60
+        secondes = temps[3]
+        return jours + heures + minutes + secondes
 # PREND LE TEMPS EN (JOUR, HEURES, MINUTES, SECONDES)
 # PREND LE TEMPS EN SECONDE
 
@@ -126,14 +143,14 @@ def afficheDate(date=-1):
 
 
 def bisextile(jour):
-    seconde = jour * 86400
-    annee = tempsEnDate(secondeEnTemps(seconde))[0]
-    print("de 2020 à", annee, "les années :")
-
+    nombre_bisextile = 0
+    annee = temps[0]
+    bisextile = 0
     for i in range(1970, annee, 1):
         if i % 4 == 0 and i % 100 != 0 or i % 400 == 0:
-            print(i)
-    print("sont bisextiles")
+            bisextile += 1
+    print(bisextile)
+    return nombre_bisextile
 # PREND UN NOMBRE DE JOUR ET DETERMINE TOUTES LES ANNEES
 # BISEXTILES ENTRE 1970 ET 1970 + NOMBRE DE JOURS
 # ON CONSIDERE ICI LE PREMIER JANVIER 2020 A 00:00
@@ -165,3 +182,8 @@ def tempsEnDateBisextile(temps):
             temps[3])
 # MEME FONCTION QUE TEMPSENDATE
 # MAIS AVEC LA CORRECTION DES ANNEES BISEXTILES
+
+
+temps = (time.gmtime())
+print(tempsEnSeconde(temps))
+print(time.gmtime())
