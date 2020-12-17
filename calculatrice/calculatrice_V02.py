@@ -1,4 +1,5 @@
 import tkinter as tk
+from math import sqrt
 
 racine = tk.Tk()
 contenu = []
@@ -12,38 +13,53 @@ def input(texte):
        len(contenu) == 0 and texte == ' - ' or \
        len(contenu) == 0 and texte == ' x ' or \
        len(contenu) == 0 and texte == ' ² ' or \
+       len(contenu) == 0 and texte == ' ^(1/2) ' or\
        len(contenu) == 0 and texte == ' / ':
-        erreur()
+        pass
     elif ' + ' in contenu and texte == ' + ' or \
          ' + ' in contenu and texte == ' - ' or \
          ' + ' in contenu and texte == ' x ' or \
          ' + ' in contenu and texte == ' ² ' or \
+         ' + ' in contenu and texte == ' ^(1/2) ' or \
          ' + ' in contenu and texte == ' / ':
-        erreur()
+        pass
     elif ' - ' in contenu and texte == ' + ' or \
          ' - ' in contenu and texte == ' - ' or \
          ' - ' in contenu and texte == ' x ' or \
          ' - ' in contenu and texte == ' ² ' or \
+         ' - ' in contenu and texte == ' ^(1/2) ' or \
          ' - ' in contenu and texte == ' / ':
-        erreur()
+        pass
     elif ' x ' in contenu and texte == ' + ' or \
          ' x ' in contenu and texte == ' - ' or \
          ' x ' in contenu and texte == ' x ' or \
          ' x ' in contenu and texte == ' ² ' or \
+         ' x ' in contenu and texte == ' ^(1/2) ' or \
          ' x ' in contenu and texte == ' / ':
-        erreur()
+        pass
     elif ' / ' in contenu and texte == ' + ' or \
          ' / ' in contenu and texte == ' - ' or \
          ' / ' in contenu and texte == ' x ' or \
          ' / ' in contenu and texte == ' ² ' or \
+         ' / ' in contenu and texte == ' ^(1/2) ' or \
          ' / ' in contenu and texte == ' / ':
-        erreur()
+        pass
     elif ' ² ' in contenu and texte == ' + ' or \
          ' ² ' in contenu and texte == ' - ' or \
          ' ² ' in contenu and texte == ' x ' or \
+         ' ² ' in contenu and texte == ' ^(1/2) ' or \
          ' ² ' in contenu and texte == ' ² ' or \
+         ' ² ' in contenu or \
          ' ² ' in contenu and texte == ' / ':
-        erreur()
+        pass
+    elif ' ^(1/2) ' in contenu and texte == ' + ' or \
+         ' ^(1/2) ' in contenu and texte == ' - ' or \
+         ' ^(1/2) ' in contenu and texte == ' x ' or \
+         ' ^(1/2) ' in contenu and texte == ' ² ' or \
+         ' ^(1/2) ' in contenu and texte == ' ^(1/2) ' or \
+         ' ^(1/2) ' in contenu or \
+         ' ^(1/2) ' in contenu and texte == ' / ':
+        pass
     else:
         contenu.append(texte)
         affiche(contenu)
@@ -52,13 +68,20 @@ def input(texte):
 def affiche(texte):
     """ fonction qui affiche sur la partie 'label' de tkinter
         ce que l'on souhaite. """
-    temp = ''
+    temp1 = ''
     if len(contenu) == 0:
         affichage.config(text='')
     else:
         for i in texte:
-            temp += str(i)
-            affichage.config(text=temp)
+            temp1 += str(i)
+        if len(temp1) >= 3:
+            if temp1[len(temp1)-1] == '0' and temp1[len(temp1)-2] == '.':
+                temp2 = temp1[:(len(temp1)-2)]
+                affichage.config(text=temp2)
+            else:
+                affichage.config(text=temp1)
+        else:
+            affichage.config(text=temp1)
 
 
 def resultat():
@@ -131,12 +154,29 @@ def resultat():
         contenu = []
         contenu.append(temp6)
         affiche(contenu)
+    if ' ^(1/2) ' in contenu:
+        temp5 = ''
+        temp1 = contenu.index(' ^(1/2) ')
+        temp3 = contenu[:temp1]
+        for i in temp3:
+            temp5 += str(i)
+        temp6 = sqrt(float(temp5))
+        contenu = []
+        contenu.append(temp6)
+        affiche(contenu)
 
 
 def clear_all():
     """ reset le contenu de la mémoire et l'affichage """
     global contenu
     contenu = []
+    affiche(contenu)
+
+
+def clear_once():
+    """ reset le contenu de la mémoire et l'affichage """
+    global contenu
+    del contenu[len(contenu)-1]
     affiche(contenu)
 
 
@@ -151,7 +191,8 @@ def erreur():
 
 
 # ----- création des widgets -----
-affichage = tk.Label(racine, text='', height='3', font=('courier', '8'))
+affichage = tk.Label(racine, text='', height='3',
+                     width='22', font=('helvetica', '8'))
 boutton_0 = tk.Button(racine, text='0',
                       command=lambda: input(0), height='2', width='4')
 boutton_1 = tk.Button(racine, text='1',
@@ -192,6 +233,11 @@ boutton_point = tk.Button(racine, text='.',
                           command=lambda: input('.'), height='2', width='4')
 boutton_carre = tk.Button(racine, text='²',
                           command=lambda: input(' ² '), height='2', width='4')
+boutton_sqrt = tk.Button(racine, text='sqrt',
+                         command=lambda: input(' ^(1/2) '),
+                         height='2', width='4')
+boutton_retour = tk.Button(racine, text=' << ', command=clear_once,
+                           height='2', width='4')
 
 # ----- placement des widgets -----
 affichage.grid(column=0, row=0, columnspan=4)
@@ -213,6 +259,8 @@ boutton_multiplication.grid(column=3, row=3)
 boutton_division.grid(column=3, row=4)
 boutton_point.grid(column=0, row=5)
 boutton_carre.grid(column=1, row=5)
+boutton_sqrt.grid(column=2, row=5)
+boutton_retour.grid(column=3, row=5)
 
 
 racine.mainloop()
